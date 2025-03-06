@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>org.ladybird.ladybird</id>
+    <name>Ladybird</name>
+    <developer id="org.ladybird">
+        <name>Ladybird</name>
+    </developer>
+    <summary>Truly independent web browser</summary>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>BSD-2-Clause</project_license>
+    <url type="homepage">https://ladybird.org/</url>
+    <url type="donation">https://donorbox.org/ladybird</url>
+    <content_rating type="oars-1.1" />
+    <recommends>
+        <control>keyboard</control>
+        <control>pointing</control>
+    </recommends>
+    <categories>
+        <category>Internet</category>
+    </categories>
+    <launchable type="desktop-id">org.ladybird.ladybird.desktop</launchable>
+
+    <description>
+        <p>
+            Ladybird is a brand-new browser and web engine. Driven by a web standards first approach, Ladybird aims to render the modern web with good performance, stability and security.
+        </p>
+        <p>
+            From its humble beginnings as an HTML viewer for the SerenityOS hobby operating system project, Ladybird has since grown into a cross-platform browser supporting Linux, macOS, and other Unix-like systems.
+        </p>
+        <p>
+             Ladybird is currently in heavy development. We are targeting a first Alpha release for early adopters in 2026.
+        </p>
+        <p>
+            What makes Ladybird unique:
+        </p>
+        <ul>
+            <li>Truly independent - No code from other browsers. We're building a new engine, based on web standards.</li>
+            <li>Singular focus - We are focused on one thing: the web browser.</li>
+            <li>No monetization - No "default search deals", crypto tokens, or other forms of user monetization, ever.</li>
+        </ul>
+    </description>
+</component>

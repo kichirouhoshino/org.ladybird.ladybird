@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.8
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'true'
+    - uses: flathub-infra/flatpak-github-actions/flatpak-builder@master
+      with:
+          bundle: Ladybird.flatpak
+          manifest-path: org.ladybird.ladybird.yaml
+          cache-key: flatpak-builder-${{ github.sha }}

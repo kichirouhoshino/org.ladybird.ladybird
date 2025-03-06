@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Ladybird
+Comment=Truly independent web browser
+Exec=Ladybird
+Terminal=false
+Type=Application
+Icon=org.ladybird.ladybird
+StartupWMClass=Archi
+Categories=Internet;
