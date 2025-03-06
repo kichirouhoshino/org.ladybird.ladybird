@@ -4,6 +4,7 @@ on:
     branches:
       - main
   pull_request:
+  work_dispatch:
 jobs:
   flatpak:
     name: "Flatpak"
