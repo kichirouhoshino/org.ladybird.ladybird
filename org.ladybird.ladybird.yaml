@@ -20,6 +20,8 @@ modules:
         - CXX=/usr/bin/g++
         - LD=/usr/bin/g++
     build-commands:
+      - |
+        sed -i 's/exit_if_running_as_root "Do not run ladybird.sh as root, your Build directory will become root-owned"/# Bypassed root check: &/' Meta/ladybird.sh
       - chmod +x Meta/ladybird.sh
       - ./Meta/ladybird.sh build --cmake-args "-DENABLE_QT=ON -DCMAKE_INSTALL_PREFIX=/app"
       - ninja -C Build/ladybird install
