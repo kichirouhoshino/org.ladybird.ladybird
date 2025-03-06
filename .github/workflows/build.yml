@@ -4,14 +4,14 @@ on:
     branches:
       - main
   pull_request:
-  work_dispatch:
+  workflow_dispatch:
 jobs:
   flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.8
-      options: --privileged
+      options: --privileged --user 1000
     steps:
     - uses: actions/checkout@v4
       with:
