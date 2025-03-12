@@ -5,5 +5,5 @@ Exec=Ladybird
 Terminal=false
 Type=Application
 Icon=org.ladybird.ladybird
-StartupWMClass=Archi
-Categories=Internet;
+StartupWMClass=Ladybird
+Categories=Network;WebBrowser;
