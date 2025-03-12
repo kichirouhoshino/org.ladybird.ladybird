@@ -18,12 +18,12 @@ jobs:
 
     steps:
     ## Based on https://github.com/jlumbroso/free-disk-space/blob/main/action.yml
-    - name: Clean up disk space
-      run: |
-        rm -rf /__t/* || true
-        rm -rf /host/usr/local/.ghcup || true
-        rm -rf /host/usr/local/lib/android || true
-        rm -rf /usr/share/dotnet || true
+      - name: Clean up disk space
+        run: |
+          rm -rf /__t/* || true
+          rm -rf /host/usr/local/.ghcup || true
+          rm -rf /host/usr/local/lib/android || true
+          rm -rf /usr/share/dotnet || true
 
       - name: Checkout
         uses: actions/checkout@v3
