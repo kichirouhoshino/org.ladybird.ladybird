@@ -1,11 +1,12 @@
 app-id: org.ladybird.ladybird
-runtime: org.kde.Platform
-runtime-version: '6.8'
-sdk: org.kde.Sdk
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
 command: Ladybird
 finish-args:
   - --socket=x11
   - --socket=wayland
+  - --socket=pulseaudio
   - --device=dri
   - --share=ipc
 
@@ -15,31 +16,37 @@ modules:
     build-options:
       build-args:
         - --share=network
-      env:
-        - CC=/usr/bin/gcc
-        - CXX=/usr/bin/g++
-        - LD=/usr/bin/g++
     build-commands:
+      - mkdir -p /app/bin
+      - ln -s /usr/bin/ninja /app/bin/ninja-build
       - |
-        sed -i 's/exit_if_running_as_root "Do not run ladybird.sh as root, your Build directory will become root-owned"/# Bypassed root check: &/' Meta/ladybird.sh
-      - chmod +x Meta/ladybird.sh
-      - ./Meta/ladybird.sh build --cmake-args "-DENABLE_QT=ON -DCMAKE_INSTALL_PREFIX=/app"
-      - ninja -C Build/ladybird install
+        cmake \
+          --preset default \
+          -B build \
+          -S . \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DVCPKG_OVERLAY_TRIPLETS="Meta/CMake/vcpkg/distribution-triplets" \
+          -DCMAKE_INSTALL_PREFIX='/app' \
+          -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+          -DENABLE_INSTALL_HEADERS=OFF \
+          -GNinja \
+          -Wno-dev
+      - ninja -C build
+      - ninja -C build install
+      - install -Dm644 Base/res/icons/128x128/app-browser.png /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm644 ${FLATPAK_ID}.desktop /app/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 ${FLATPAK_ID}.appdata.xml /app/share/appdata/${FLATPAK_ID}.appdata.xml
+      - rm /app/bin/ninja-build
     sources:
       - type: git
         url: https://github.com/LadybirdBrowser/ladybird.git
         branch: master
-
-  - name: common
-    buildsystem: simple
-    sources:
+      - type: git
+        url: https://github.com/microsoft/vcpkg.git
+        commit: 74ec888e385d189b42d6b398d0bbaa6f1b1d3b0e
+        dest: vcpkg
       - type: file
         path: org.ladybird.ladybird.desktop
       - type: file
         path: org.ladybird.ladybird.appdata.xml
-      - type: file
-        path: org.ladybird.ladybird.png
-    build-commands:
-      - install -Dm644 ${FLATPAK_ID}.png /app/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
-      - install -Dm644 ${FLATPAK_ID}.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm644 ${FLATPAK_ID}.appdata.xml /app/share/appdata/${FLATPAK_ID}.appdata.xml
