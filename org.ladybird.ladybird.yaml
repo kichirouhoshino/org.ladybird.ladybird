@@ -2,6 +2,11 @@ app-id: org.ladybird.ladybird
 runtime: org.kde.Platform
 runtime-version: '6.8'
 sdk: org.kde.Sdk
+add-extensions:
+  org.freedesktop.Platform.ffmpeg-full:
+    directory: lib/ffmpeg
+    version: '24.08'
+    add-ld-path: .
 command: Ladybird
 finish-args:
   - --socket=x11
@@ -12,27 +17,22 @@ finish-args:
   - --share=ipc
 
 modules:
-  ## Fixes a bug related to vcpkg
-  - name: ninjafix
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/bin
-      - ln -s /usr/bin/ninja /app/bin/ninja-build
-
   - name: ladybird
     buildsystem: cmake-ninja
     build-options:
       build-args:
         - --share=network
+      env:
+        - VCPKG_DISABLE_METRICS="true"
     config-opts:
       - -DBUILD_SHARED_LIBS=OFF
       - -DCMAKE_BUILD_TYPE=Release
       - -DVCPKG_OVERLAY_TRIPLETS=Meta/CMake/vcpkg/distribution-triplets
-      - -DCMAKE_INSTALL_PREFIX=/app
       - -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake
       - -DENABLE_INSTALL_HEADERS=OFF
       - -Wno-dev
     build-commands:
+      - mkdir -p /app/lib/ffmpeg
       - install -Dm644 Base/res/icons/48x48/app-browser.png /app/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png
       - install -Dm644 Base/res/icons/128x128/app-browser.png /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
       - install -Dm644 ${FLATPAK_ID}.desktop /app/share/applications/${FLATPAK_ID}.desktop
@@ -54,8 +54,3 @@ modules:
         path: org.ladybird.ladybird.desktop
       - type: file
         path: org.ladybird.ladybird.appdata.xml
-
-  - name: remove-ninjafix
-    buildsystem: simple
-    build-commands:
-      - rm -rf /app/bin/ninja-build
