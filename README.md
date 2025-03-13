@@ -8,7 +8,5 @@ flatpak remote-add --user ladybird-flatpak https://kichirouhoshino.github.io/org
 flatpak install ladybird-flatpak org.ladybird.ladybird
 ```
 ## ToDo
-- Improve manifest to use cmake-ninja buildsystem instead of simple
 - Test sandbox (see if portal works, expose necessary file paths)
 - Add additional dbus permissions if needed
-- Add cleanup commands (Ladybird leaves some static libraries behind)
