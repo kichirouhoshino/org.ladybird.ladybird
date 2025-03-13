@@ -13,7 +13,7 @@ finish-args:
 
 modules:
   ## Fixes a bug related to vcpkg
-  - name: compat
+  - name: ninjafix
     buildsystem: simple
     build-commands:
       - mkdir -p /app/bin
@@ -39,8 +39,9 @@ modules:
       - install -Dm644 ${FLATPAK_ID}.appdata.xml /app/share/appdata/${FLATPAK_ID}.appdata.xml
     cleanup:
       - /lib/*.a
-      - /lib64/*.a
-      - /bin/ninja-build
+      - /lib/debug
+      - /share/Ladybird/*.cmake
+      - /share/Lagom/*.cmake
     sources:
       - type: git
         url: https://github.com/LadybirdBrowser/ladybird.git
@@ -53,3 +54,8 @@ modules:
         path: org.ladybird.ladybird.desktop
       - type: file
         path: org.ladybird.ladybird.appdata.xml
+
+  - name: remove-ninjafix
+    buildsystem: simple
+    build-commands:
+      - rm -rf /app/bin/ninja-build
