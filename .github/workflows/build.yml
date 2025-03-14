@@ -18,6 +18,7 @@ jobs:
 
   flatter:
     name: Build Flatpak
+    needs: clear-github-caches
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/andyholmes/flatter/kde:6.7
