@@ -19,7 +19,6 @@ finish-args:
 modules:
   - name: ladybird
     buildsystem: cmake-ninja
-    builddir: true
     build-options:
       build-args:
         - --share=network

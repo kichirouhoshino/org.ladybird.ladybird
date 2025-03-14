@@ -7,19 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  clear-github-caches:
-    name: Clear all GitHub action caches
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clear all caches
-        run: gh cache delete --all --repo kichirouhoshino/org.ladybird.ladybird
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GITHUB_TOKEN: ${{ secrets.ACTION_CLEAR_CACHES_TOKEN }}
-
   flatter:
     name: Build Flatpak
-    needs: clear-github-caches
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/andyholmes/flatter/kde:6.7
@@ -54,9 +43,6 @@ jobs:
             org.ladybird.ladybird.yaml
           flatpak-builder-args: |
             --install-deps-from=flathub
-            --force-clean
-            --delete-build-dirs
-            --disable-cache
           gpg-sign: ${{ steps.gpg.outputs.fingerprint }}
           upload-pages-artifact: true
           #upload-pages-includes: |
